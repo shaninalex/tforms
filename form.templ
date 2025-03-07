@@ -1,14 +1,19 @@
 package tforms
 
-templ FormUI(form IForm) {
+templ UIForm(form IForm) {
 	if form != nil {
-		<form method={ string(form.GetMethod()) } enctype={ string(form.GetType()) } action={ templ.URL(form.GetActionUrl()) }>
+		<form method={ string(form.GetMethod()) }
+		      enctype={ string(form.GetType()) }
+		      action={ templ.URL(form.GetActionUrl()) }
+		      class={templ.KV("needs-validation", len(form.GetErrors()) > 0) }>
 			for _, input := range form.GetInputs() {
 				switch input.HTML().Type() {
 				    case InputTypeHidden:
-						@InputHiddenUI(input.HTML())
+						@UIHiddenField(input.HTML())
 					case InputTypeText:
-						@InputTextFieldUI(input.HTML())
+						@UITextField(input.HTML())
+					case InputTypeSelect:
+						@UISelectField(input.HTML())
 					default:
 						<div class="mb-3">
 							<div class="alert alert-warning p-2">Unknown input type</div>

@@ -49,8 +49,12 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		tforms.NewInputField[string]("address", tforms.TextInputText, true).
 			SetPlaceholder("st.84, New York, USA").
 			SetLabel("Employee address"),
-		//tforms.NewSelectField[string]("state", stateOptions, false, nil, true),
-		//tforms.NewSelectField[float64]("sizes", sizesOptions, true, nil, true),
+		tforms.NewSelectField[string]("state", stateOptions, false, true).
+			SetPlaceholder("Select state...").
+			SetLabel("State where employee leaves"),
+		tforms.NewSelectField[float64]("sizes", sizesOptions, true, true).
+			SetPlaceholder("Select sizes...").
+			SetLabel("Employee size for work clothes"),
 	)
 
 	//form.SetValue(map[string]any{

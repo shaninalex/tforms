@@ -1,6 +1,6 @@
 package tforms
 
-templ InputTextFieldUI(field IHTMLInput) {
+templ UITextField(field IHTMLInput) {
 	<div class="mb-3">
 	    if len(field.Label()) > 0 {
 	    	<label for={ field.ID() } class="form-label">{ field.Label() }</label>
@@ -15,7 +15,7 @@ templ InputTextFieldUI(field IHTMLInput) {
             required?={field.Required()}
 		/>
 		if field.HasError() {
-			<div class="valid-feedback">{ field.GetError() }</div>
+			<div class="valid-feedback">{ field.Error() }</div>
 		}
 	</div>
 }

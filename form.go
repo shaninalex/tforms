@@ -3,7 +3,7 @@ package tforms
 type IForm interface {
 	IsValid() bool
 	SetValue(payload map[string]any)
-	GetInputs() map[string]IBaseFormControl
+	GetInputs() []IBaseFormControl
 	GetActionUrl() string
 	Validate()
 	GetErrors() map[string]string
@@ -14,7 +14,7 @@ type IForm interface {
 type Form struct {
 	actionUrl  string
 	multipart  bool
-	inputs     map[string]IBaseFormControl
+	inputs     []IBaseFormControl
 	formMethod FormMethod
 	formType   FormType
 }
@@ -23,11 +23,11 @@ func NewForm(action string, multipart bool, controls ...IBaseFormControl) IForm 
 	form := &Form{
 		actionUrl: action,
 		multipart: multipart,
-		inputs:    make(map[string]IBaseFormControl, len(controls)),
+		inputs:    make([]IBaseFormControl, len(controls)),
 	}
 
-	for _, input := range controls {
-		form.inputs[input.Name()] = input
+	for idx, input := range controls {
+		form.inputs[idx] = input
 	}
 
 	return form
@@ -41,14 +41,14 @@ func (s *Form) IsValid() bool {
 	}
 	return true
 }
-func (s *Form) GetInputs() map[string]IBaseFormControl { return s.inputs }
-func (s *Form) GetActionUrl() string                   { return s.actionUrl }
+func (s *Form) GetInputs() []IBaseFormControl { return s.inputs }
+func (s *Form) GetActionUrl() string          { return s.actionUrl }
 func (s *Form) SetValue(payload map[string]any) {
-	for k, v := range payload {
-		if _, ok := s.inputs[k]; ok {
-			s.inputs[k].SetValue(v)
-		}
-	}
+	//for k, v := range payload {
+	//	if _, ok := s.inputs[k]; ok {
+	//		s.inputs[k].SetValue(v)
+	//	}
+	//}
 }
 func (s *Form) Validate() {
 	for k, _ := range s.inputs {
@@ -58,8 +58,8 @@ func (s *Form) Validate() {
 func (s *Form) GetErrors() map[string]string {
 	errors := make(map[string]string, len(s.inputs))
 	for _, input := range s.inputs {
-		if input.GetError() != "" {
-			errors[input.Name()] = input.GetError()
+		if input.Error() != "" {
+			errors[input.Name()] = input.Error()
 		}
 	}
 

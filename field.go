@@ -5,7 +5,7 @@ type IBaseFormControl interface {
 	HasError() bool
 	Validate()
 	Name() string
-	GetError() string
+	Error() string
 	SetValue(v any) IBaseFormControl
 	SetLabel(v string) IBaseFormControl
 	SetPlaceholder(v string) IBaseFormControl

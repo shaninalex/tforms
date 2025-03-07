@@ -10,7 +10,7 @@ type IHTMLInput interface {
 	Name() string
 	Type() InputType
 	HTMLInputType() string // TextInputType
-	GetError() string
+	Error() string
 	HasError() bool
 	HTMLValue() string
 	Options() []Options
@@ -47,7 +47,7 @@ type BaseInput struct {
 func (s *BaseInput) Name() string          { return s.name }
 func (s *BaseInput) Type() InputType       { return s.inputType }
 func (s *BaseInput) HTMLInputType() string { return string(s.htmlType) }
-func (s *BaseInput) GetError() string      { return s.inputError }
+func (s *BaseInput) Error() string         { return s.inputError }
 func (s *BaseInput) HasError() bool        { return len(s.inputError) != 0 }
 func (s *BaseInput) HTMLValue() string     { return s.value }
 func (s *BaseInput) Options() []Options    { return s.options }
