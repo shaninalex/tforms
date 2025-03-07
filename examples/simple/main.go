@@ -1,8 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"github.com/shaninalex/tforms"
-	"log"
 )
 
 func main() {
@@ -22,18 +22,24 @@ func main() {
 	form := tforms.NewForm(
 		"/post/action",
 		false,
-		tforms.NewInputField[string]("email", tforms.TextInputEmail, ""),
-		tforms.NewSelectField[string]("state", stateOptions, false, nil),
-		tforms.NewSelectField[float64]("sizes", sizesOptions, true, nil),
+		tforms.NewInputField[string]("email", tforms.TextInputEmail, nil, true),
+		tforms.NewSelectField[string]("state", stateOptions, false, nil, true),
+		tforms.NewSelectField[float64]("sizes", sizesOptions, true, nil, true),
 	)
 
 	form.SetValue(map[string]any{
 		"email": "testtest.com",
 		"state": []string{"GA", "OG"},
-		"sizes": []float64{0.24},
+		"sizes": []int{24},
 	})
 
 	form.Validate()
+	if !form.IsValid() {
+		fmt.Println("Form is not valid")
+		for name, err := range form.GetErrors() {
+			fmt.Printf("[%s]: %s\n", name, err)
+		}
+	}
 
-	log.Println("Is form valid", form.IsValid())
+	fmt.Println("Done")
 }

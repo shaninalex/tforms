@@ -5,12 +5,19 @@ type TextArea struct {
 	BaseField
 }
 
-func NewTextArea(name string, value string) *TextArea {
+func NewTextArea(name string, value string, required bool) *TextArea {
 	return &TextArea{
 		BaseField: BaseField{
-			FieldName:  name,
-			FieldType:  InputTypeTextArea,
-			FieldValue: value,
+			FieldName:     name,
+			FieldType:     InputTypeTextArea,
+			FieldValue:    value,
+			FieldRequired: required,
 		},
+	}
+}
+
+func (s *TextArea) Validate() {
+	if !s.BaseField.ValidateRequired() {
+		return
 	}
 }

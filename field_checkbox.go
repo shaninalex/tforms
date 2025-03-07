@@ -6,13 +6,20 @@ type Checkbox struct {
 	Checked bool
 }
 
-func NewCheckbox(name string, checked bool) *Checkbox {
+func NewCheckbox(name string, checked bool, required bool) *Checkbox {
 	return &Checkbox{
 		BaseField: BaseField{
-			FieldName:  name,
-			FieldType:  InputTypeCheckbox,
-			FieldValue: checked,
+			FieldName:     name,
+			FieldType:     InputTypeCheckbox,
+			FieldValue:    checked,
+			FieldRequired: required,
 		},
 		Checked: checked,
+	}
+}
+
+func (s *Checkbox) Validate() {
+	if !s.BaseField.ValidateRequired() {
+		return
 	}
 }

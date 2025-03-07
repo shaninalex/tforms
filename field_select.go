@@ -1,25 +1,25 @@
 package tforms
 
-import "log"
-
-type SelectField[T any] struct {
+type SelectField[T comparable] struct {
 	BaseField
 	Options  []SelectableOption[T]
 	Multiple bool
 }
 
-type SelectableOption[T any] struct {
+// SelectableOption type for all selectable input types ( select, checkbox )
+type SelectableOption[T comparable] struct {
 	Label    string
 	Value    T
 	Selected bool
 }
 
-func NewSelectField[T any](name string, options []SelectableOption[T], multiple bool, value []T) *SelectField[T] {
+func NewSelectField[T comparable](name string, options []SelectableOption[T], multiple bool, value []T, required bool) *SelectField[T] {
 	field := &SelectField[T]{
 		BaseField: BaseField{
-			FieldName:  name,
-			FieldType:  InputTypeSelect,
-			FieldValue: value,
+			FieldName:     name,
+			FieldType:     InputTypeSelect,
+			FieldValue:    value,
+			FieldRequired: required,
 		},
 		Options:  options,
 		Multiple: multiple,
@@ -28,5 +28,34 @@ func NewSelectField[T any](name string, options []SelectableOption[T], multiple 
 }
 
 func (s *SelectField[T]) Validate() {
-	log.Println("validation using select field in override method", s.Name())
+	if !s.BaseField.ValidateRequired() {
+		return
+	}
+
+	// Ensure FieldValue is of the correct type
+	selectedValues, ok := s.FieldValue.([]T)
+	if !ok {
+		s.FieldError = ErrorInvalidType
+		return
+	}
+
+	// Validate that each selected value exists in the options
+	for _, selected := range selectedValues {
+		valid := false
+		for _, option := range s.Options {
+			if option.Value == selected {
+				valid = true
+				break
+			}
+		}
+		if !valid {
+			s.FieldError = ErrorInvalidSelection
+			return
+		}
+	}
+
+	// Validate multiple selections if Multiple is false
+	if !s.Multiple && len(selectedValues) > 1 {
+		s.FieldError = ErrorMultipleSelection
+	}
 }

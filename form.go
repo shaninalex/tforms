@@ -6,6 +6,7 @@ type IForm interface {
 	GetInputs() map[string]IBaseFormControl
 	GetActionUrl() string
 	Validate()
+	GetErrors() map[string]string
 }
 
 type Form struct {
@@ -47,4 +48,14 @@ func (s *Form) Validate() {
 	for k, _ := range s.inputs {
 		s.inputs[k].Validate()
 	}
+}
+func (s *Form) GetErrors() map[string]string {
+	errors := make(map[string]string, len(s.inputs))
+	for _, input := range s.inputs {
+		if input.GetError() != "" {
+			errors[input.Name()] = input.GetError()
+		}
+	}
+
+	return errors
 }
