@@ -1,5 +1,7 @@
 package tforms
 
+import "log"
+
 type SelectField[T any] struct {
 	BaseField
 	Options  []SelectableOption[T]
@@ -22,6 +24,9 @@ func NewSelectField[T any](name string, options []SelectableOption[T], multiple 
 		Options:  options,
 		Multiple: multiple,
 	}
-
 	return field
+}
+
+func (s *SelectField[T]) Validate() {
+	log.Println("validation using select field in override method", s.Name())
 }
