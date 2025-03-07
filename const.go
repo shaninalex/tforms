@@ -5,6 +5,7 @@ import "regexp"
 type InputType string
 
 const (
+	InputTypeHidden   InputType = "hidden"
 	InputTypeText     InputType = "text"
 	InputTypeTextArea InputType = "textarea"
 	InputTypeSelect   InputType = "select"
@@ -28,4 +29,26 @@ const (
 
 var (
 	rxEmail = regexp.MustCompile(Email)
+)
+
+type FormType string
+
+const (
+	FormTypeXWWWFormUrlEncoded FormType = "application/x-www-form-urlencoded"
+	FormTypeMultipart          FormType = "multipart/form-data"
+	FormTypePlain              FormType = "text/plain"
+)
+
+type FormMethod string
+
+const (
+	FormMethodPost FormMethod = "post"
+	FormTypeGet    FormMethod = "get"
+)
+
+const (
+	ErrorRequired          = "required field"
+	ErrorInvalidType       = "Invalid value type"
+	ErrorInvalidSelection  = "Invalid selection: value not in options"
+	ErrorMultipleSelection = "Multiple selection is not allowed"
 )

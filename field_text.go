@@ -1,35 +1,39 @@
 package tforms
 
+import "fmt"
+
 // InputField represents text-based input fields.
 type InputField[T any] struct {
-	BaseField
-	HtmlType TextInputType
+	*BaseInput
 }
 
 // NewInputField creates a new text-based input field.
-func NewInputField[T any](name string, textInputType TextInputType, value any, required bool) *InputField[T] {
+func NewInputField[T any](name string, textInputType TextInputType, required bool) *InputField[T] {
 	return &InputField[T]{
-		BaseField: BaseField{
-			FieldName:     name,
-			FieldType:     InputTypeText,
-			FieldValue:    value,
-			FieldRequired: required,
+		BaseInput: &BaseInput{
+			name:      name,
+			inputType: InputTypeText,
+			htmlType:  textInputType,
+			required:  required,
 		},
-		HtmlType: textInputType,
 	}
 }
 
-func (s *InputField[T]) Validate() {
-	if !s.BaseField.ValidateRequired() {
-		return
-	}
+// public
 
-	if s.HtmlType == TextInputEmail {
-		v, ok := s.FieldValue.(string)
-		if ok {
-			if ok := rxEmail.MatchString(v); !ok {
-				s.SetError("incorrect email")
-			}
-		}
-	}
+func (s *InputField[T]) Validate()        {}
+func (s *InputField[T]) HTML() *BaseInput { return s.BaseInput }
+func (s *InputField[T]) HasError() bool   { return len(s.BaseInput.inputError) != 0 }
+func (s *InputField[T]) Name() string     { return s.BaseInput.Name() }
+func (s *InputField[T]) SetValue(v any) IBaseFormControl {
+	s.BaseInput.value = fmt.Sprintf("%v", v)
+	return s
+}
+func (s *InputField[T]) SetLabel(v string) IBaseFormControl {
+	s.BaseInput.label = v
+	return s
+}
+func (s *InputField[T]) SetPlaceholder(v string) IBaseFormControl {
+	s.BaseInput.placeholder = v
+	return s
 }

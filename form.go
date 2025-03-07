@@ -7,12 +7,16 @@ type IForm interface {
 	GetActionUrl() string
 	Validate()
 	GetErrors() map[string]string
+	GetMethod() FormMethod
+	GetType() FormType
 }
 
 type Form struct {
-	actionUrl string
-	multipart bool
-	inputs    map[string]IBaseFormControl
+	actionUrl  string
+	multipart  bool
+	inputs     map[string]IBaseFormControl
+	formMethod FormMethod
+	formType   FormType
 }
 
 func NewForm(action string, multipart bool, controls ...IBaseFormControl) IForm {
@@ -41,7 +45,9 @@ func (s *Form) GetInputs() map[string]IBaseFormControl { return s.inputs }
 func (s *Form) GetActionUrl() string                   { return s.actionUrl }
 func (s *Form) SetValue(payload map[string]any) {
 	for k, v := range payload {
-		s.inputs[k].SetValue(v)
+		if _, ok := s.inputs[k]; ok {
+			s.inputs[k].SetValue(v)
+		}
 	}
 }
 func (s *Form) Validate() {
@@ -58,4 +64,16 @@ func (s *Form) GetErrors() map[string]string {
 	}
 
 	return errors
+}
+func (s *Form) GetMethod() FormMethod {
+	if s.formMethod == "" {
+		return FormMethodPost
+	}
+	return s.formMethod
+}
+func (s *Form) GetType() FormType {
+	if s.formType == "" {
+		return FormTypeXWWWFormUrlEncoded
+	}
+	return s.formType
 }

@@ -1,0 +1,25 @@
+package tforms
+
+templ FormUI(form IForm) {
+	if form != nil {
+		<form method={ string(form.GetMethod()) } enctype={ string(form.GetType()) } action={ templ.URL(form.GetActionUrl()) }>
+			for _, input := range form.GetInputs() {
+				switch input.HTML().Type() {
+				    case InputTypeHidden:
+						@InputHiddenUI(input.HTML())
+					case InputTypeText:
+						@InputTextFieldUI(input.HTML())
+					default:
+						<div class="mb-3">
+							<div class="alert alert-warning p-2">Unknown input type</div>
+						</div>
+				}
+			}
+			<div>
+				<button class="btn btn-success" type="submit">Save</button>
+			</div>
+		</form>
+	} else {
+		<div class="alert alert-danger">Form is not defined</div>
+	}
+}
