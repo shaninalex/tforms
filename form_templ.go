@@ -88,34 +88,34 @@ func UIForm(form IForm) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, input := range form.GetInputs() {
-				switch input.HTML().Type() {
+				switch input.Base().Type() {
 				case InputTypeHidden:
-					templ_7745c5c3_Err = UIHiddenField(input.HTML()).Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = UIHiddenField(input.Base()).Render(ctx, templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				case InputTypeText:
-					templ_7745c5c3_Err = UITextField(input.HTML()).Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = UITextField(input.Base()).Render(ctx, templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				case InputTypeSelect:
-					templ_7745c5c3_Err = UISelectField(input.HTML()).Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = UISelectField(input.Base()).Render(ctx, templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				case InputTypeCheckbox:
-					templ_7745c5c3_Err = UICheckboxField(input.HTML()).Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = UICheckboxField(input.Base()).Render(ctx, templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				case InputTypeRadio:
-					templ_7745c5c3_Err = UICheckboxField(input.HTML()).Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = UICheckboxField(input.Base()).Render(ctx, templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				case InputTypeTextArea:
-					templ_7745c5c3_Err = UITextAreaField(input.HTML()).Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = UITextAreaField(input.Base()).Render(ctx, templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

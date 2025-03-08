@@ -41,7 +41,7 @@ func NewForm(action string, multipart bool, controls ...IBaseFormControl) IForm 
 
 func (s *Form) IsValid() bool {
 	for _, i := range s.inputs {
-		if i.HasError() {
+		if i.Base().HasError() {
 			return false
 		}
 	}
@@ -61,8 +61,8 @@ func (s *Form) Validate() {
 func (s *Form) GetErrors() map[string]string {
 	errors := make(map[string]string, len(s.inputs))
 	for _, input := range s.inputs {
-		if input.Error() != "" {
-			errors[input.Name()] = input.Error()
+		if input.Base().HasError() {
+			errors[input.Base().Name()] = input.Base().inputError
 		}
 	}
 
@@ -87,7 +87,7 @@ func (s *Form) SetValue(payload any) {
 	if values, ok := payload.(url.Values); ok {
 		for k, v := range values {
 			for _, input := range s.inputs {
-				if input.Name() == k {
+				if input.Base().Name() == k {
 					if len(v) == 1 {
 						input.SetValue(v[0])
 					} else {

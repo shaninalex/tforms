@@ -1,11 +1,8 @@
 package tforms
 
 type IBaseFormControl interface {
-	HTML() *BaseInput
-	HasError() bool
+	Base() *BaseInput
 	Validate()
-	Name() string
-	Error() string
 	SetValue(v any) IBaseFormControl
 	SetLabel(v string) IBaseFormControl
 	SetPlaceholder(v string) IBaseFormControl

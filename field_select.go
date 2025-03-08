@@ -2,7 +2,9 @@ package tforms
 
 type SelectField[T comparable] struct {
 	*BaseInput
-	Options  []SelectableOption[T]
+	Options []SelectableOption[T]
+
+	// Multiple in select should render something like "tags". But it required more JS
 	Multiple bool
 }
 
@@ -23,11 +25,8 @@ func NewSelectField[T comparable](name string, options []SelectableOption[T], mu
 	}
 }
 
-func (s *SelectField[T]) HTML() *BaseInput { return s.BaseInput }
-func (s *SelectField[T]) HasError() bool   { return len(s.BaseInput.inputError) != 0 }
+func (s *SelectField[T]) Base() *BaseInput { return s.BaseInput }
 func (s *SelectField[T]) Validate()        {}
-func (s *SelectField[T]) Name() string     { return s.BaseInput.Name() }
-func (s *SelectField[T]) Error() string    { return s.BaseInput.inputError }
 func (s *SelectField[T]) SetValue(v any) IBaseFormControl {
 	return s
 }

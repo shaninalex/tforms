@@ -17,10 +17,8 @@ func NewTextArea(name string, required bool) *TextArea {
 	}
 }
 
-func (s *TextArea) HTML() *BaseInput { return s.BaseInput }
-func (s *TextArea) HasError() bool   { return len(s.BaseInput.inputError) != 0 }
+func (s *TextArea) Base() *BaseInput { return s.BaseInput }
 func (s *TextArea) Validate()        {}
-func (s *TextArea) Name() string     { return s.BaseInput.Name() }
 func (s *TextArea) SetValue(v any) IBaseFormControl {
 	s.BaseInput.value = fmt.Sprintf("%v", v)
 	return s

@@ -23,11 +23,8 @@ func NewSelectableField[T comparable](name string, selectableType InputType, opt
 	return s
 }
 
-func (s *CheckboxField[T]) HTML() *BaseInput { return s.BaseInput }
-func (s *CheckboxField[T]) HasError() bool   { return len(s.BaseInput.inputError) != 0 }
+func (s *CheckboxField[T]) Base() *BaseInput { return s.BaseInput }
 func (s *CheckboxField[T]) Validate()        {}
-func (s *CheckboxField[T]) Name() string     { return s.BaseInput.Name() }
-func (s *CheckboxField[T]) Error() string    { return s.BaseInput.inputError }
 func (s *CheckboxField[T]) SetValue(v any) IBaseFormControl {
 	if values, ok := v.([]T); ok {
 		for _, value := range values {

@@ -18,9 +18,7 @@ func NewHiddenField(name, value string, required bool) *HiddenField {
 }
 
 func (s *HiddenField) Validate()        {}
-func (s *HiddenField) HTML() *BaseInput { return s.BaseInput }
-func (s *HiddenField) HasError() bool   { return len(s.BaseInput.inputError) != 0 }
-func (s *HiddenField) Name() string     { return s.BaseInput.Name() }
+func (s *HiddenField) Base() *BaseInput { return s.BaseInput }
 func (s *HiddenField) SetValue(v any) IBaseFormControl {
 	s.BaseInput.value = fmt.Sprintf("%v", v)
 	return s

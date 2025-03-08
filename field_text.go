@@ -22,9 +22,7 @@ func NewInputField[T any](name string, textInputType TextInputType, required boo
 // public
 
 func (s *InputField[T]) Validate()        {}
-func (s *InputField[T]) HTML() *BaseInput { return s.BaseInput }
-func (s *InputField[T]) HasError() bool   { return len(s.BaseInput.inputError) != 0 }
-func (s *InputField[T]) Name() string     { return s.BaseInput.Name() }
+func (s *InputField[T]) Base() *BaseInput { return s.BaseInput }
 func (s *InputField[T]) SetValue(v any) IBaseFormControl {
 	s.BaseInput.value = fmt.Sprintf("%v", v)
 	return s

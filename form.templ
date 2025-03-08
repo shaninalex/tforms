@@ -7,19 +7,19 @@ templ UIForm(form IForm) {
 		      action={ templ.URL(form.GetActionUrl()) }
 		      class={templ.KV("needs-validation", len(form.GetErrors()) > 0) }>
 			for _, input := range form.GetInputs() {
-				switch input.HTML().Type() {
+				switch input.Base().Type() {
 				    case InputTypeHidden:
-						@UIHiddenField(input.HTML())
+						@UIHiddenField(input.Base())
 					case InputTypeText:
-						@UITextField(input.HTML())
+						@UITextField(input.Base())
 					case InputTypeSelect:
-						@UISelectField(input.HTML())
+						@UISelectField(input.Base())
 					case InputTypeCheckbox:
-                        @UICheckboxField(input.HTML())
+                        @UICheckboxField(input.Base())
 					case InputTypeRadio:
-						@UICheckboxField(input.HTML())
+						@UICheckboxField(input.Base())
 					case InputTypeTextArea:
-						@UITextAreaField(input.HTML())
+						@UITextAreaField(input.Base())
 					default:
 						<div class="mb-3">
 							<div class="alert alert-warning p-2">Unknown input type</div>
