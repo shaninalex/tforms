@@ -1,1 +1,2 @@
-make htmx example
+Make htmx example
+Require additional logic for custom tag attributes.

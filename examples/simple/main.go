@@ -17,6 +17,14 @@ var (
 		{Label: "MD", Value: 0.24},
 		{Label: "LG", Value: 0.83},
 	}
+	departmentsOptions = []tforms.SelectableOption[string]{
+		{Label: "Workshop", Value: "workshop"},
+		{Label: "Inventory", Value: "inventory"},
+		{Label: "Sales", Value: "sales"},
+		{Label: "Shop", Value: "shop"},
+		{Label: "E-Shop", Value: "eshop"},
+		{Label: "Support", Value: "support"},
+	}
 )
 
 func main() {
@@ -55,6 +63,8 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		tforms.NewSelectField[float64]("sizes", sizesOptions, true, true).
 			SetPlaceholder("Select sizes...").
 			SetLabel("Employee size for work clothes"),
+		tforms.NewSelectableField[string]("departments", tforms.InputTypeCheckbox, departmentsOptions, true, true).
+			SetLabel("Departments"),
 	)
 
 	//form.SetValue(map[string]any{

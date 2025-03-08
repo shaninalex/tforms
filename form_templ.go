@@ -104,6 +104,12 @@ func UIForm(form IForm) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
+				case InputTypeCheckbox:
+				case InputTypeRadio:
+					templ_7745c5c3_Err = UICheckboxField(input.HTML()).Render(ctx, templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
 				default:
 					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div class=\"mb-3\"><div class=\"alert alert-warning p-2\">Unknown input type</div></div>")
 					if templ_7745c5c3_Err != nil {

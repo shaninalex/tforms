@@ -14,6 +14,10 @@ templ UIForm(form IForm) {
 						@UITextField(input.HTML())
 					case InputTypeSelect:
 						@UISelectField(input.HTML())
+					case InputTypeCheckbox:
+                        @UICheckboxField(input.HTML())
+					case InputTypeRadio:
+						@UICheckboxField(input.HTML())
 					default:
 						<div class="mb-3">
 							<div class="alert alert-warning p-2">Unknown input type</div>

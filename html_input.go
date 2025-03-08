@@ -13,23 +13,11 @@ type IHTMLInput interface {
 	Error() string
 	HasError() bool
 	HTMLValue() string
-	Options() []Options
+	Options() []Option
 	ID() string
 	Placeholder() string
 	Required() bool
 	Label() string
-}
-
-type Options struct {
-	Value    string
-	Label    string
-	Selected bool
-}
-
-type SelectableOption[T comparable] struct {
-	Label    string
-	Value    T
-	Selected bool
 }
 
 type BaseInput struct {
@@ -38,7 +26,7 @@ type BaseInput struct {
 	htmlType    TextInputType
 	inputError  string
 	value       string
-	options     []Options
+	options     []Option
 	placeholder string
 	required    bool
 	label       string
@@ -50,7 +38,7 @@ func (s *BaseInput) HTMLInputType() string { return string(s.htmlType) }
 func (s *BaseInput) Error() string         { return s.inputError }
 func (s *BaseInput) HasError() bool        { return len(s.inputError) != 0 }
 func (s *BaseInput) HTMLValue() string     { return s.value }
-func (s *BaseInput) Options() []Options    { return s.options }
+func (s *BaseInput) Options() []Option     { return s.options }
 func (s *BaseInput) ID() string            { return fmt.Sprintf("form_%s", s.Name()) }
 func (s *BaseInput) Placeholder() string   { return s.placeholder }
 func (s *BaseInput) Required() bool        { return s.required }

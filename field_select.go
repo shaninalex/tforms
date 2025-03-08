@@ -1,5 +1,7 @@
 package tforms
 
+import "fmt"
+
 type SelectField[T comparable] struct {
 	*BaseInput
 	Options  []SelectableOption[T]
@@ -7,11 +9,16 @@ type SelectField[T comparable] struct {
 }
 
 func NewSelectField[T comparable](name string, options []SelectableOption[T], multiple bool, required bool) *SelectField[T] {
+	strOptions := make([]Option, len(options))
+	for i, option := range options {
+		strOptions[i] = option.ToOption()
+	}
 	return &SelectField[T]{
 		BaseInput: &BaseInput{
 			name:      name,
 			inputType: InputTypeSelect,
 			required:  required,
+			options:   strOptions,
 		},
 		Options:  options,
 		Multiple: multiple,
@@ -24,6 +31,7 @@ func (s *SelectField[T]) Validate()        {}
 func (s *SelectField[T]) Name() string     { return s.BaseInput.Name() }
 func (s *SelectField[T]) Error() string    { return s.BaseInput.inputError }
 func (s *SelectField[T]) SetValue(v any) IBaseFormControl {
+	fmt.Println("Setting the value")
 	return s
 }
 func (s *SelectField[T]) SetLabel(v string) IBaseFormControl {
