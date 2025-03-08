@@ -36,7 +36,7 @@ func IndexPage(form tforms.IForm, submitted bool) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if submitted {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"alert alert-info alert-dismissible fade show\"><div>Form was submitted</div><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"alert alert-info alert-dismissible fade show\"><div>Form was submitted</div><div><a href=\"/\">go home</a></div><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

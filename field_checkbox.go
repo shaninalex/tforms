@@ -1,5 +1,7 @@
 package tforms
 
+import "fmt"
+
 // CheckboxField represents a checkbox field.
 type CheckboxField[T comparable] struct {
 	*BaseInput
@@ -16,9 +18,9 @@ func NewSelectableField[T comparable](name string, selectableType InputType, opt
 			inputType: selectableType,
 			required:  required,
 		},
-		Options:  options,
 		Multiple: multiple,
 	}
+	s.Options = s.copy(options)
 	s.makeOptions(options)
 	return s
 }
@@ -26,10 +28,13 @@ func NewSelectableField[T comparable](name string, selectableType InputType, opt
 func (s *CheckboxField[T]) Base() *BaseInput { return s.BaseInput }
 func (s *CheckboxField[T]) Validate()        {}
 func (s *CheckboxField[T]) SetValue(v any) IBaseFormControl {
+	for _, option := range s.Options {
+		option.Selected = false
+	}
 	if values, ok := v.([]T); ok {
 		for _, value := range values {
 			for _, option := range s.Options {
-				if option.Value == value {
+				if fmt.Sprintf("%v", option.Value) == fmt.Sprintf("%v", value) {
 					option.Selected = true
 					break
 				}
@@ -59,4 +64,16 @@ func (s *CheckboxField[T]) makeOptions(options []*SelectableOption[T]) {
 		strOptions[i] = option.ToOption()
 	}
 	s.BaseInput.options = strOptions
+}
+
+func (s *CheckboxField[T]) copy(options []*SelectableOption[T]) []*SelectableOption[T] {
+	newOptions := make([]*SelectableOption[T], len(options))
+	for i, o := range options {
+		newOptions[i] = &SelectableOption[T]{
+			Label:    o.Label,
+			Selected: o.Selected,
+			Value:    o.Value,
+		}
+	}
+	return newOptions
 }

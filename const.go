@@ -5,13 +5,13 @@ import "regexp"
 type InputType string
 
 const (
+	InputTypeCheckbox InputType = "checkbox"
+	InputTypeFile     InputType = "file"
 	InputTypeHidden   InputType = "hidden"
+	InputTypeRadio    InputType = "radio"
+	InputTypeSelect   InputType = "select"
 	InputTypeText     InputType = "text"
 	InputTypeTextArea InputType = "textarea"
-	InputTypeSelect   InputType = "select"
-	InputTypeCheckbox InputType = "checkbox"
-	InputTypeRadio    InputType = "radio"
-	InputTypeFile     InputType = "file"
 )
 
 const (
@@ -21,10 +21,10 @@ const (
 type TextInputType string
 
 const (
-	TextInputText   TextInputType = "text"
-	TextInputEmail  TextInputType = "email"
 	TextInputDate   TextInputType = "date"
+	TextInputEmail  TextInputType = "email"
 	TextInputNumber TextInputType = "number"
+	TextInputText   TextInputType = "text"
 )
 
 var (
@@ -42,13 +42,13 @@ const (
 type FormMethod string
 
 const (
-	FormMethodPost FormMethod = "post"
 	FormTypeGet    FormMethod = "get"
+	FormMethodPost FormMethod = "post"
 )
 
 const (
-	ErrorRequired          = "required field"
-	ErrorInvalidType       = "Invalid value type"
 	ErrorInvalidSelection  = "Invalid selection: value not in options"
+	ErrorInvalidType       = "Invalid value type"
 	ErrorMultipleSelection = "Multiple selection is not allowed"
+	ErrorRequired          = "required field"
 )

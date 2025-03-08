@@ -7,12 +7,12 @@ import (
 )
 
 var (
-	stateOptions = []tforms.SelectableOption[string]{
+	stateOptions = []*tforms.SelectableOption[string]{
 		{Label: "Alaska", Value: "AK"},
 		{Label: "Georgia", Value: "GA"},
 		{Label: "Oregon", Value: "OG"},
 	}
-	sizesOptions = []tforms.SelectableOption[float64]{
+	sizesOptions = []*tforms.SelectableOption[float64]{
 		{Label: "SM", Value: 0.43},
 		{Label: "MD", Value: 0.24},
 		{Label: "LG", Value: 0.83},
@@ -67,7 +67,7 @@ func MakeForm() tforms.IForm {
 		tforms.NewSelectField[string]("state", stateOptions, false, true).
 			SetPlaceholder("Select state...").
 			SetLabel("State where employee leaves"),
-		tforms.NewSelectField[float64]("sizes", sizesOptions, true, true).
+		tforms.NewSelectField[float64]("sizes", sizesOptions, false, true).
 			SetPlaceholder("Select sizes...").
 			SetLabel("Employee size for work clothes"),
 		tforms.NewSelectableField[string]("departments", tforms.InputTypeCheckbox, departmentsOptions, true, true).
