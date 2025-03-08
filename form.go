@@ -1,14 +1,20 @@
 package tforms
 
+import (
+	"net/url"
+)
+
 type IForm interface {
 	IsValid() bool
-	SetValue(payload map[string]any)
+	SetValue(payload any)
 	GetInputs() []IBaseFormControl
 	GetActionUrl() string
 	Validate()
 	GetErrors() map[string]string
 	GetMethod() FormMethod
+	SetMethod(v FormMethod)
 	GetType() FormType
+	SetType(v FormType)
 }
 
 type Form struct {
@@ -43,18 +49,15 @@ func (s *Form) IsValid() bool {
 }
 func (s *Form) GetInputs() []IBaseFormControl { return s.inputs }
 func (s *Form) GetActionUrl() string          { return s.actionUrl }
-func (s *Form) SetValue(payload map[string]any) {
-	//for k, v := range payload {
-	//	if _, ok := s.inputs[k]; ok {
-	//		s.inputs[k].SetValue(v)
-	//	}
-	//}
-}
+func (s *Form) SetMethod(v FormMethod)        { s.formMethod = v }
+func (s *Form) SetType(v FormType)            { s.formType = v }
+
 func (s *Form) Validate() {
 	for k, _ := range s.inputs {
 		s.inputs[k].Validate()
 	}
 }
+
 func (s *Form) GetErrors() map[string]string {
 	errors := make(map[string]string, len(s.inputs))
 	for _, input := range s.inputs {
@@ -65,6 +68,7 @@ func (s *Form) GetErrors() map[string]string {
 
 	return errors
 }
+
 func (s *Form) GetMethod() FormMethod {
 	if s.formMethod == "" {
 		return FormMethodPost
@@ -76,4 +80,22 @@ func (s *Form) GetType() FormType {
 		return FormTypeXWWWFormUrlEncoded
 	}
 	return s.formType
+}
+
+func (s *Form) SetValue(payload any) {
+	// request application/x-www-form-urlencoded form
+	if values, ok := payload.(url.Values); ok {
+		for k, v := range values {
+			for _, input := range s.inputs {
+				if input.Name() == k {
+					if len(v) == 1 {
+						input.SetValue(v[0])
+					} else {
+						input.SetValue(v)
+					}
+					break
+				}
+			}
+		}
+	}
 }

@@ -17,7 +17,7 @@ var (
 		{Label: "MD", Value: 0.24},
 		{Label: "LG", Value: 0.83},
 	}
-	departmentsOptions = []tforms.SelectableOption[string]{
+	departmentsOptions = []*tforms.SelectableOption[string]{
 		{Label: "Workshop", Value: "workshop"},
 		{Label: "Inventory", Value: "inventory"},
 		{Label: "Sales", Value: "sales"},
@@ -29,24 +29,31 @@ var (
 
 func main() {
 	http.HandleFunc("/", handleIndex)
+	http.HandleFunc("/post/action", handlePostAction)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println(err)
+	}
+}
+
+func handlePostAction(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	//form.Validate()
-	//if !form.IsValid() {
-	//	fmt.Println("Form is not valid")
-	//	for name, err := range form.GetErrors() {
-	//		fmt.Printf("[%s]: %s\n", name, err)
-	//	}
-	//}
-	//
-	//fmt.Println("Done")
+	form := MakeForm()
+	form.SetValue(r.Form)
+	form.Validate()
+	IndexPage(form, true).Render(r.Context(), w)
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
+	form := MakeForm()
+	IndexPage(form, false).Render(r.Context(), w)
+}
+
+func MakeForm() tforms.IForm {
 	form := tforms.NewForm(
 		"/post/action",
 		false,
@@ -65,12 +72,9 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			SetLabel("Employee size for work clothes"),
 		tforms.NewSelectableField[string]("departments", tforms.InputTypeCheckbox, departmentsOptions, true, true).
 			SetLabel("Departments"),
+		tforms.NewTextArea("description", true).
+			SetLabel("Employee description"),
 	)
-
-	//form.SetValue(map[string]any{
-	//	"email": "testtest.com",
-	//	"state": []string{"GA", "OG"},
-	//	"sizes": []int{24},
-	//})
-	IndexPage(form).Render(r.Context(), w)
+	form.SetMethod(tforms.FormMethodPost)
+	return form
 }

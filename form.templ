@@ -18,6 +18,8 @@ templ UIForm(form IForm) {
                         @UICheckboxField(input.HTML())
 					case InputTypeRadio:
 						@UICheckboxField(input.HTML())
+					case InputTypeTextArea:
+						@UITextAreaField(input.HTML())
 					default:
 						<div class="mb-3">
 							<div class="alert alert-warning p-2">Unknown input type</div>
