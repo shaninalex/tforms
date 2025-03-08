@@ -33,7 +33,7 @@ type BaseInput struct {
 }
 
 func (s *BaseInput) Error() string         { return s.inputError }
-func (s *BaseInput) HasError() bool        { return len(s.inputError) != 0 }
+func (s *BaseInput) HasError() bool        { return len(s.inputError) > 0 }
 func (s *BaseInput) HTMLInputType() string { return string(s.htmlType) }
 func (s *BaseInput) HTMLValue() string     { return s.value }
 func (s *BaseInput) ID() string            { return fmt.Sprintf("form_%s", s.Name()) }

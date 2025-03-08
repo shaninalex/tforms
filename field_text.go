@@ -1,10 +1,14 @@
 package tforms
 
-import "fmt"
+import (
+	"fmt"
+	validation "github.com/go-ozzo/ozzo-validation"
+)
 
 // InputField represents text-based input fields.
 type InputField[T any] struct {
 	*BaseInput
+	Rules []validation.Rule
 }
 
 // NewInputField creates a new text-based input field.
@@ -21,7 +25,6 @@ func NewInputField[T any](name string, textInputType TextInputType, required boo
 
 // public
 
-func (s *InputField[T]) Validate()        {}
 func (s *InputField[T]) Base() *BaseInput { return s.BaseInput }
 func (s *InputField[T]) SetValue(v any) IBaseFormControl {
 	s.BaseInput.value = fmt.Sprintf("%v", v)
@@ -34,4 +37,7 @@ func (s *InputField[T]) SetLabel(v string) IBaseFormControl {
 func (s *InputField[T]) SetPlaceholder(v string) IBaseFormControl {
 	s.BaseInput.placeholder = v
 	return s
+}
+func (s *InputField[T]) SetError(e string) {
+	s.BaseInput.inputError = e
 }

@@ -1,10 +1,14 @@
 package tforms
 
-import "fmt"
+import (
+	"fmt"
+	validation "github.com/go-ozzo/ozzo-validation"
+)
 
 // TextArea represents a multi-line text input.
 type TextArea struct {
 	*BaseInput
+	Rules []validation.Rule
 }
 
 func NewTextArea(name string, required bool) *TextArea {
@@ -18,7 +22,6 @@ func NewTextArea(name string, required bool) *TextArea {
 }
 
 func (s *TextArea) Base() *BaseInput { return s.BaseInput }
-func (s *TextArea) Validate()        {}
 func (s *TextArea) SetValue(v any) IBaseFormControl {
 	s.BaseInput.value = fmt.Sprintf("%v", v)
 	return s
@@ -30,4 +33,7 @@ func (s *TextArea) SetLabel(v string) IBaseFormControl {
 func (s *TextArea) SetPlaceholder(v string) IBaseFormControl {
 	s.BaseInput.placeholder = v
 	return s
+}
+func (s *TextArea) SetError(e string) {
+	s.BaseInput.inputError = e
 }

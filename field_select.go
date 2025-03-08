@@ -1,6 +1,8 @@
 package tforms
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type SelectField[T comparable] struct {
 	*BaseInput
@@ -25,7 +27,6 @@ func NewSelectField[T comparable](name string, options []*SelectableOption[T], m
 }
 
 func (s *SelectField[T]) Base() *BaseInput { return s.BaseInput }
-func (s *SelectField[T]) Validate()        {}
 func (s *SelectField[T]) SetValue(v any) IBaseFormControl {
 	for _, option := range s.Options {
 		option.Selected = false
@@ -47,7 +48,6 @@ func (s *SelectField[T]) SetPlaceholder(v string) IBaseFormControl {
 	s.BaseInput.placeholder = v
 	return s
 }
-
 func (s *SelectField[T]) makeOptions(options []*SelectableOption[T]) {
 	strOptions := make([]Option, len(options))
 	for i, option := range options {
@@ -55,7 +55,6 @@ func (s *SelectField[T]) makeOptions(options []*SelectableOption[T]) {
 	}
 	s.BaseInput.options = strOptions
 }
-
 func (s *SelectField[T]) copy(options []*SelectableOption[T]) []*SelectableOption[T] {
 	newOptions := make([]*SelectableOption[T], len(options))
 	for i, o := range options {
@@ -66,4 +65,7 @@ func (s *SelectField[T]) copy(options []*SelectableOption[T]) []*SelectableOptio
 		}
 	}
 	return newOptions
+}
+func (s *SelectField[T]) SetError(e string) {
+	s.BaseInput.inputError = e
 }

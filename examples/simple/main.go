@@ -36,6 +36,19 @@ func main() {
 	}
 }
 
+/*
+Use github.com/go-playground/validator/v10 to add validation tags
+*/
+type Employee struct {
+	Email       string    `form:"email" validate:"required,email"`
+	Address     string    `form:"address" validate:"required"`
+	Salary      float64   `form:"salary" validate:"required,min=1000,max=10000"`
+	State       string    `form:"state" validate:"required"`
+	Sizes       []float64 `form:"sizes" validate:"required"`
+	Departments []string  `form:"departments" validate:"required,dive,alphanum"`
+	Description string    `form:"description"`
+}
+
 func handlePostAction(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -44,7 +57,6 @@ func handlePostAction(w http.ResponseWriter, r *http.Request) {
 	}
 	form := MakeForm()
 	form.SetValue(r.Form)
-	form.Validate()
 	IndexPage(form, true).Render(r.Context(), w)
 }
 
@@ -64,6 +76,9 @@ func MakeForm() tforms.IForm {
 		tforms.NewInputField[string]("address", tforms.TextInputText, true).
 			SetPlaceholder("st.84, New York, USA").
 			SetLabel("Employee address"),
+		tforms.NewInputField[float64]("salary", tforms.TextInputNumber, true).
+			SetPlaceholder("$10000").
+			SetLabel("Salary"),
 		tforms.NewSelectField[string]("state", stateOptions, false, true).
 			SetPlaceholder("Select state...").
 			SetLabel("State where employee leaves"),

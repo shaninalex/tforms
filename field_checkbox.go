@@ -1,6 +1,8 @@
 package tforms
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // CheckboxField represents a checkbox field.
 type CheckboxField[T comparable] struct {
@@ -26,7 +28,6 @@ func NewSelectableField[T comparable](name string, selectableType InputType, opt
 }
 
 func (s *CheckboxField[T]) Base() *BaseInput { return s.BaseInput }
-func (s *CheckboxField[T]) Validate()        {}
 func (s *CheckboxField[T]) SetValue(v any) IBaseFormControl {
 	for _, option := range s.Options {
 		option.Selected = false
@@ -65,7 +66,6 @@ func (s *CheckboxField[T]) makeOptions(options []*SelectableOption[T]) {
 	}
 	s.BaseInput.options = strOptions
 }
-
 func (s *CheckboxField[T]) copy(options []*SelectableOption[T]) []*SelectableOption[T] {
 	newOptions := make([]*SelectableOption[T], len(options))
 	for i, o := range options {
@@ -76,4 +76,7 @@ func (s *CheckboxField[T]) copy(options []*SelectableOption[T]) []*SelectableOpt
 		}
 	}
 	return newOptions
+}
+func (s *CheckboxField[T]) SetError(e string) {
+	s.BaseInput.inputError = e
 }
