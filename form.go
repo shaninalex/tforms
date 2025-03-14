@@ -82,10 +82,10 @@ func (s *Form) SetValue(payload any) {
 		for k, v := range values {
 			for _, input := range s.inputs {
 				if input.Base().Name() == k {
-					if len(v) == 1 {
-						input.SetValue(v[0])
-					} else {
+					if input.Base().inputType == InputTypeCheckbox {
 						input.SetValue(v)
+					} else {
+						input.SetValue(v[0])
 					}
 					break
 				}

@@ -4,16 +4,16 @@ import (
 	"fmt"
 )
 
-type SelectField[T comparable] struct {
+type SelectField struct {
 	*BaseInput
-	Options []*SelectableOption[T]
+	Options []*SelectableOption
 
 	// Multiple in select should render something like "tags". But it required more JS
 	Multiple bool
 }
 
-func NewSelectField[T comparable](name string, options []*SelectableOption[T], multiple bool, required bool) *SelectField[T] {
-	s := &SelectField[T]{
+func NewSelectField(name string, options []*SelectableOption, multiple bool, required bool) *SelectField {
+	s := &SelectField{
 		BaseInput: &BaseInput{
 			name:      name,
 			inputType: InputTypeSelect,
@@ -26,8 +26,8 @@ func NewSelectField[T comparable](name string, options []*SelectableOption[T], m
 	return s
 }
 
-func (s *SelectField[T]) Base() *BaseInput { return s.BaseInput }
-func (s *SelectField[T]) SetValue(v any) IBaseFormControl {
+func (s *SelectField) Base() *BaseInput { return s.BaseInput }
+func (s *SelectField) SetValue(v any) IBaseFormControl {
 	for _, option := range s.Options {
 		option.Selected = false
 	}
@@ -40,25 +40,25 @@ func (s *SelectField[T]) SetValue(v any) IBaseFormControl {
 	s.makeOptions(s.Options)
 	return s
 }
-func (s *SelectField[T]) SetLabel(v string) IBaseFormControl {
+func (s *SelectField) SetLabel(v string) IBaseFormControl {
 	s.BaseInput.label = v
 	return s
 }
-func (s *SelectField[T]) SetPlaceholder(v string) IBaseFormControl {
+func (s *SelectField) SetPlaceholder(v string) IBaseFormControl {
 	s.BaseInput.placeholder = v
 	return s
 }
-func (s *SelectField[T]) makeOptions(options []*SelectableOption[T]) {
+func (s *SelectField) makeOptions(options []*SelectableOption) {
 	strOptions := make([]Option, len(options))
 	for i, option := range options {
 		strOptions[i] = option.ToOption()
 	}
 	s.BaseInput.options = strOptions
 }
-func (s *SelectField[T]) copy(options []*SelectableOption[T]) []*SelectableOption[T] {
-	newOptions := make([]*SelectableOption[T], len(options))
+func (s *SelectField) copy(options []*SelectableOption) []*SelectableOption {
+	newOptions := make([]*SelectableOption, len(options))
 	for i, o := range options {
-		newOptions[i] = &SelectableOption[T]{
+		newOptions[i] = &SelectableOption{
 			Label:    o.Label,
 			Selected: o.Selected,
 			Value:    o.Value,
@@ -66,6 +66,6 @@ func (s *SelectField[T]) copy(options []*SelectableOption[T]) []*SelectableOptio
 	}
 	return newOptions
 }
-func (s *SelectField[T]) SetError(e string) {
+func (s *SelectField) SetError(e string) {
 	s.BaseInput.inputError = e
 }

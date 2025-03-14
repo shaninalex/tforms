@@ -6,14 +6,14 @@ import (
 )
 
 // InputField represents text-based input fields.
-type InputField[T any] struct {
+type InputField struct {
 	*BaseInput
 	Rules []validation.Rule
 }
 
 // NewInputField creates a new text-based input field.
-func NewInputField[T any](name string, textInputType TextInputType, required bool) *InputField[T] {
-	return &InputField[T]{
+func NewInputField(name string, textInputType TextInputType, required bool) *InputField {
+	return &InputField{
 		BaseInput: &BaseInput{
 			name:      name,
 			inputType: InputTypeText,
@@ -25,19 +25,19 @@ func NewInputField[T any](name string, textInputType TextInputType, required boo
 
 // public
 
-func (s *InputField[T]) Base() *BaseInput { return s.BaseInput }
-func (s *InputField[T]) SetValue(v any) IBaseFormControl {
+func (s *InputField) Base() *BaseInput { return s.BaseInput }
+func (s *InputField) SetValue(v any) IBaseFormControl {
 	s.BaseInput.value = fmt.Sprintf("%v", v)
 	return s
 }
-func (s *InputField[T]) SetLabel(v string) IBaseFormControl {
+func (s *InputField) SetLabel(v string) IBaseFormControl {
 	s.BaseInput.label = v
 	return s
 }
-func (s *InputField[T]) SetPlaceholder(v string) IBaseFormControl {
+func (s *InputField) SetPlaceholder(v string) IBaseFormControl {
 	s.BaseInput.placeholder = v
 	return s
 }
-func (s *InputField[T]) SetError(e string) {
+func (s *InputField) SetError(e string) {
 	s.BaseInput.inputError = e
 }
