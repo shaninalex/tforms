@@ -6,6 +6,7 @@
 
 - [x] Render form controls
 - [x] Show errors
+- [ ] tests
 - [ ] file inputs
 - [ ] examples
 - [ ] HTMX
