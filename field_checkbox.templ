@@ -5,7 +5,9 @@ templ UICheckboxField(field IHTMLInput) {
 		if len(field.Label()) > 0 {
 			<h4 class="form-label">{ field.Label() }</h4>
 		}
-
+		if field.HasError() {
+			<div class="text-danger"><small>{ field.Error() }</small></div>
+		}
 		switch field.Type() {
             case InputTypeRadio:
                 for _, option := range field.Options() {

@@ -5,5 +5,5 @@ type IBaseFormControl interface {
 	SetLabel(v string) IBaseFormControl
 	SetPlaceholder(v string) IBaseFormControl
 	SetValue(v any) IBaseFormControl
-	Validate()
+	SetError(e string)
 }

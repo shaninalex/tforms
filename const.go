@@ -51,4 +51,5 @@ const (
 	ErrorInvalidType       = "Invalid value type"
 	ErrorMultipleSelection = "Multiple selection is not allowed"
 	ErrorRequired          = "required field"
+	ErrorEmpty             = ""
 )

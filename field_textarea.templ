@@ -13,7 +13,7 @@ templ UITextAreaField(field IHTMLInput) {
             required?={field.Required()}
 		>{ field.HTMLValue() }</textarea>
 		if field.HasError() {
-			<div class="valid-feedback">{ field.Error() }</div>
+			<div class="invalid-feedback">{ field.Error() }</div>
 		}
 	</div>
 }

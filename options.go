@@ -8,13 +8,13 @@ type Option struct {
 	Selected bool
 }
 
-type SelectableOption[T comparable] struct {
+type SelectableOption struct {
 	Label    string
-	Value    T
+	Value    any
 	Selected bool
 }
 
-func (s *SelectableOption[T]) ToOption() Option {
+func (s *SelectableOption) ToOption() Option {
 	return Option{
 		Label:    s.Label,
 		Selected: s.Selected,

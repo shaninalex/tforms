@@ -5,7 +5,7 @@ templ UIForm(form IForm) {
 		<form method={ string(form.GetMethod()) }
 		      enctype={ string(form.GetType()) }
 		      action={ templ.URL(form.GetActionUrl()) }
-		      class={templ.KV("needs-validation", len(form.GetErrors()) > 0) }>
+		      class="needs-validation" novalidate>
 			for _, input := range form.GetInputs() {
 				switch input.Base().Type() {
 				    case InputTypeHidden:

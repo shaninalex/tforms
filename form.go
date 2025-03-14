@@ -9,8 +9,8 @@ type IForm interface {
 	SetValue(payload any)
 	GetInputs() []IBaseFormControl
 	GetActionUrl() string
-	Validate()
 	GetErrors() map[string]string
+	SetErrors(e map[string]string)
 	GetMethod() FormMethod
 	SetMethod(v FormMethod)
 	GetType() FormType
@@ -52,12 +52,6 @@ func (s *Form) GetActionUrl() string          { return s.actionUrl }
 func (s *Form) SetMethod(v FormMethod)        { s.formMethod = v }
 func (s *Form) SetType(v FormType)            { s.formType = v }
 
-func (s *Form) Validate() {
-	for k, _ := range s.inputs {
-		s.inputs[k].Validate()
-	}
-}
-
 func (s *Form) GetErrors() map[string]string {
 	errors := make(map[string]string, len(s.inputs))
 	for _, input := range s.inputs {
@@ -88,13 +82,23 @@ func (s *Form) SetValue(payload any) {
 		for k, v := range values {
 			for _, input := range s.inputs {
 				if input.Base().Name() == k {
-					if len(v) == 1 {
-						input.SetValue(v[0])
-					} else {
+					if input.Base().inputType == InputTypeCheckbox {
 						input.SetValue(v)
+					} else {
+						input.SetValue(v[0])
 					}
 					break
 				}
+			}
+		}
+	}
+}
+func (s *Form) SetErrors(e map[string]string) {
+	for fieldName, errorString := range e {
+		for _, input := range s.inputs {
+			if input.Base().Name() == fieldName {
+				input.SetError(errorString)
+				break
 			}
 		}
 	}
