@@ -1,3 +1,9 @@
+## v0.2.1 (2025-03-14)
+
+### Fix
+
+- **types**: remove generics, fix setvalue for checkbox
+
 ## v0.2.0 (2025-03-08)
 
 ### Feat
