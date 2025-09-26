@@ -21,10 +21,11 @@ const (
 type TextInputType string
 
 const (
-	TextInputDate   TextInputType = "date"
-	TextInputEmail  TextInputType = "email"
-	TextInputNumber TextInputType = "number"
-	TextInputText   TextInputType = "text"
+	TextInputDate     TextInputType = "date"
+	TextInputEmail    TextInputType = "email"
+	TextInputNumber   TextInputType = "number"
+	TextInputText     TextInputType = "text"
+	TextInputPassword TextInputType = "password"
 )
 
 var (
