@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/shaninalex/tforms"
 	"net/http"
+
+	"github.com/shaninalex/tforms"
 )
 
 var (
@@ -98,6 +99,9 @@ func MakeForm() tforms.IForm {
 			SetLabel("Departments"),
 		tforms.NewTextArea("description", true).
 			SetLabel("Employee description"),
+		tforms.NewInputField("password", tforms.TextInputPassword, true).
+			SetPlaceholder("***").
+			SetLabel("Employee password"),
 	)
 	form.SetMethod(tforms.FormMethodPost)
 	return form
