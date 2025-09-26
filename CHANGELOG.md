@@ -1,3 +1,9 @@
+## v0.2.2 (2025-09-26)
+
+### Fix
+
+- create text input password type
+
 ## v0.2.1 (2025-03-14)
 
 ### Fix
